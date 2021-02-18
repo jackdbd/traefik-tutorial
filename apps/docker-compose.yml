@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+
+  first-app:
+    build: ./node-app-one
+    container_name: node-app-1
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1Router.entrypoints=some-public-entrypoint,other-public-entrypoint"
+
+  second-app:
+    build: ./node-app-two
+    container_name: node-app-2
+    restart: always
+    # networks:
+    #   - internal
+    # ports:
+    #   - "2223:2222"
+    # expose:
+    #   - "2222"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app2Router.entrypoints=some-public-entrypoint"
+      # - "traefik.backend=app2"
+      # - "traefik.docker.network=web"
+      # - traefik.frontend.rule=Host:two.express.com
+      # - traefik.frontend.rule=Path(`/app2`)
+      # - "traefik.frontend.rule=PathPrefix(`/app2`)"
+      # - "traefik.port=2222"
+
+  # The whoami service described in the Traefik quickstart
+  # https://doc.traefik.io/traefik/v2.0/getting-started/quick-start/
+  # whoami:
+  #   image: containous/whoami
+  #   container_name: whoami-app
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.whoami.entrypoints=some-public-network"
+  #     - "traefik.http.routers.whoami.rule=Path(`/whoami`)"
+  #     # - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
+  #     - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+
+# networks:
+#   # web:
+#   #   external: true
+#   internal:
+#     external: false

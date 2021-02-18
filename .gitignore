@@ -1,0 +1,5 @@
+# Traefik binary
+traefik/traefik
+
+# Environment variables (loaded by direnv)
+.envrc

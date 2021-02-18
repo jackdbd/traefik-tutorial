@@ -1,0 +1,12 @@
+{
+  "name": "node-app-two",
+  "version": "1.0.0",
+  "description": "The second Node.js app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

@@ -1,0 +1,90 @@
+# Traefik STATIC configuration
+# https://doc.traefik.io/traefik/reference/static-configuration/file/
+
+# Attention! If you use the Docker provider, don't forget to include this config
+# file in a named volume to make it available in the container. E.g.
+# volumes:
+#   - ./traefik.yml:/traefik.yml
+
+# https://doc.traefik.io/traefik/contributing/data-collection/
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+# Traefik API handler
+# If you enable the API, a new special service named api@internal is created and
+# can then be referenced in a Traefik router.
+# Traefik API endpoints: https://doc.traefik.io/traefik/operations/api/#endpoints
+# Traefik dashboard ref.: https://doc.traefik.io/traefik/operations/dashboard/
+api:
+  dashboard: true
+  debug: true
+  # in insecure mode the API is available on the entryPoint named traefik
+  insecure: true
+
+# Traefik logs
+# https://doc.traefik.io/traefik/observability/logs/
+log:
+  filePath: "/logs/traefik.log"
+  # format: json
+  level: INFO
+
+# Traefik access logs
+# https://doc.traefik.io/traefik/observability/access-logs/
+# Access logs can be fine-tuned keeping/dropping/redacting fields or headers.
+# https://doc.traefik.io/traefik/observability/access-logs/#limiting-the-fieldsincluding-headers
+accessLog:
+  filePath: "/logs/access.log"
+
+# TODO
+entryPoints:
+  some-public-entrypoint:
+    address: ":8081"
+  other-public-entrypoint:
+    address: ":8082"
+  # web:
+  #   address: ":80"
+
+providers:
+  # File provider config ref. https://doc.traefik.io/traefik/providers/file/
+  file:
+    filename: ./file-provider-dynamic.yml
+    watch: true
+  # Docker provider config ref. https://doc.traefik.io/traefik/providers/docker/
+  docker:
+    # defaultRule: foobar
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    # network: foobar
+    # swarmMode: true
+    watch: true
+
+# https://doc.traefik.io/traefik/observability/metrics/overview/
+# metrics:
+#   prometheus:
+#     buckets:
+#     - 42
+#     - 42
+#     addEntryPointsLabels: true
+#     addServicesLabels: true
+#     entryPoint: foobar
+#     manualRouting: true
+
+# tracing:
+#   serviceName: foobar
+#   spanNameLimit: 42
+#   # Zipkin ref. https://doc.traefik.io/traefik/observability/tracing/zipkin/
+#   zipkin:
+#     httpEndpoint: foobar
+#     sameSpan: true
+#     id128Bit: true
+#     sampleRate: 42
+
+# Let's Encrypt certificate resolver reference
+# https://doc.traefik.io/traefik/https/acme/#certificate-resolvers
+# certificatesresolvers:
+#   mytlschallenge:
+#     acme:
+#       tlschallenge: true
+#       email: "${SSL_EMAIL}"
+#       storage: /letsencrypt/acme.json

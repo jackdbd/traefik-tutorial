@@ -1,0 +1,12 @@
+{
+    "name": "node-app-one",
+    "version": "1.0.0",
+    "description": "The first Node.js app",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "4.17.1"
+    }
+}
